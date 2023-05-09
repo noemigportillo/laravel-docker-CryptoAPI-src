@@ -3,17 +3,17 @@
 namespace App\Infrastructure\Persistence;
 
 use App\Application\UserDataSource\UserDataSource;
-use App\Domain\User;
+use App\Domain\Wallet;
 
 class FileUserDataSource implements UserDataSource
 {
-    public function findByEmail(string $email): User
+    public function findByEmail(string $email): Wallet
     {
-        return new User(1, "email@email.com");
+        return new Wallet(1, "email@email.com");
     }
 
     public function getAll(): array
     {
-        return [new User(1, "email@email.com"), new User(2, "another_email@email.com")];
+        return [new Wallet(1, "email@email.com"), new Wallet(2, "another_email@email.com")];
     }
 }

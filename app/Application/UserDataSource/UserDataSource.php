@@ -2,14 +2,14 @@
 
 namespace App\Application\UserDataSource;
 
-use App\Domain\User;
+use App\Domain\Wallet;
 
-Interface UserDataSource
+interface UserDataSource
 {
-    public function findByEmail(string $email): User;
+    public function findByEmail(string $email): Wallet;
 
     /**
-     * @return User[]
+     * @return Wallet[]
      */
     public function getAll(): array;
 }
