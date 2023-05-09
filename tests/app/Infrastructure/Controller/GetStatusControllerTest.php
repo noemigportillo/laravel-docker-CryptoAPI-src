@@ -3,7 +3,7 @@
 namespace Tests\app\Infrastructure\Controller;
 
 use App\Application\UserDataSource\UserDataSource;
-use App\Domain\User;
+use App\Domain\Wallet;
 use Exception;
 use Illuminate\Http\Response;
 use Mockery;
