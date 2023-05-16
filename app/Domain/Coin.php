@@ -22,7 +22,7 @@ class Coin
 
     public function getId(): string
     {
-        return $this->id;
+        return $this->coin_id;
     }
     public function getName(): string
     {
