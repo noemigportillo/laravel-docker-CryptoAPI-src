@@ -17,7 +17,7 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
         "fakerphp/faker": "^1.9.1",
-        "mockery/mockery": "^1.4.2",
+        "mockery/mockery": "*",
         "phpmd/phpmd": "^2.13",
         "phpro/grumphp": "^1.16",
         "phpunit/phpunit": "^9.6",
