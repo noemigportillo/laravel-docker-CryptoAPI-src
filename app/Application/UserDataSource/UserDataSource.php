@@ -2,14 +2,12 @@
 
 namespace App\Application\UserDataSource;
 
-use App\Domain\Wallet;
+use App\Domain\User;
 
+/**
+ * @SuppressWarnings(PHPMD.StaticAccess)
+ */
 interface UserDataSource
 {
-    public function findByEmail(string $email): Wallet;
-
-    /**
-     * @return Wallet[]
-     */
-    public function getAll(): array;
+    public function findById(string $user_id): ?User;
 }

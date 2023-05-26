@@ -33,3 +33,5 @@ Homestead.json
 /.vagrant
 .phpunit.result.cache
 yarn-error.log
+
+/public/index.php
