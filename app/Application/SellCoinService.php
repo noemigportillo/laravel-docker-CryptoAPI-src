@@ -29,18 +29,21 @@ class SellCoinService
         }
         return null; //Si no se encuentra la moneda, devuelve null
     }
-    public function execute(string $coin_id): ?Coin
+    public function execute(string $coin_id, $wallet_id, $amountUSD): ?Coin
     {
-        /*$coin = $this->coinDataSource->getCoinInfo($coin_id);
-        $wallet = $this->walletDataSource->getWalletInfo($wallet_id);
+        $coin = $this->coinDataSource->getCoinInfo($coin_id);
+        if (is_null($coin)) {
+            throw new CoinNotFoundException();
+        }
+        /*$wallet = $this->walletDataSource->getWalletInfo($wallet_id);
         if(is_null($wallet){
             throw new WalletNotFoundException();
         }*/
         //comprobar que se puede vender
         //$coins = $wallet->getCoins();
-        $coins = $this->coinDataSource->getCoinsWallet($coin_id);
-        $coin = $this->findCoinById($coins, $coin_id);
-        if (is_null($coin)) {
+        $coins = $this->coinDataSource->getCoinsWallet();
+        $coin2 = $this->findCoinById($coins, $coin_id);
+        if (is_null($coin2)) { //si no esta en mi wallet
             throw new CoinNotFoundException();
         }
         return $coin;

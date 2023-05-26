@@ -17,10 +17,10 @@ class SellCoinController extends BaseController
         $this->sellCoinService = $sellCoinService;
     }
 
-    public function __invoke(string $coin_id, string $wallet_id, float $amount): JsonResponse
+    public function __invoke(string $coin_id, string $wallet_id, float $amountUSD): JsonResponse
     {
         try {
-            $this->sellCoinService->execute($coin_id, $wallet_id, $amount);
+            $this->sellCoinService->execute($coin_id, $wallet_id, $amountUSD);
             return response()->json([
                 'status' => 'Ok',
                 'message' => 'Venta de moneda realizada con éxito',

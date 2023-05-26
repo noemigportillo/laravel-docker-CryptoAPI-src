@@ -24,16 +24,22 @@ class CoinDataSourceTest extends TestCase
      */
     public function getCoinWallet()
     {
-        $coin1 = new Coin("coinId", "name", "symbol", 1.2, 1.3);
+        $coin1 = new Coin("90", "Bitcoin", "BTC", 1.2, 26721.88);
         $coin2 = new Coin("coinId2", "name2", "symbol2", 2.2, 2.3);
         $arrayCoins = [$coin1, $coin2];
 
         $this->coinDataSource
             ->expects('getCoinsWallet')
-            ->with("coinId")
+            ->with()
             ->andReturn($arrayCoins);
 
-        $result_coin = $this->sellCoinService->execute("coinId");
+        $this->coinDataSource
+            ->expects('getCoinInfo')
+            ->with("90")
+            ->andReturn($coin1);
+
+
+        $result_coin = $this->sellCoinService->execute(90, "wallet_id", "amount_usd");
         $this->assertEquals($coin1, $result_coin);
     }
     /**
@@ -41,17 +47,22 @@ class CoinDataSourceTest extends TestCase
      */
     public function getCoinWalletException()
     {
-        $coin1 = new Coin("coinId", "name", "symbol", 1.2, 1.3);
+        $coin1 = new Coin("90", "Bitcoin", "BTC", 1.2, 26721.88);
         $coin2 = new Coin("coinId2", "name2", "symbol2", 2.2, 2.3);
-        $coin3 = new Coin("coinId3", "name2", "symbol2", 2.2, 2.3);
         $arrayCoins = [$coin1, $coin2];
 
         $this->coinDataSource
             ->expects('getCoinsWallet')
-            ->with("coinId3")
+            ->with()
             ->andReturn($arrayCoins);
 
+        $this->coinDataSource
+            ->expects('getCoinInfo')
+            ->with("80")
+            ->andReturn($coin1);
+
+
         $this->expectException(CoinNotFoundException::class);
-        $this->sellCoinService->execute("coinId3");
+        $this->sellCoinService->execute(80, "wallet_id", "amount_usd");
     }
 }
