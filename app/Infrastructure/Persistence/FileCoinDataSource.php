@@ -8,7 +8,7 @@ use App\Infrastructure\Exceptions\CoinNotFoundException;
 
 class FileCoinDataSource implements CoinDataSource
 {
-    public function getCoinInfo(string $coin_id): ?Coin
+    public function getCoinInfo(string $coin_id): Coin
     {
         /*$url = 'https://api.coinlore.net/api/ticker/?id=' . $coin_id;
         $data = file_get_contents($url);
