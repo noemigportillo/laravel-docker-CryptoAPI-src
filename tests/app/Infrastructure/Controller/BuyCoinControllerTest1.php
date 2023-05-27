@@ -12,7 +12,7 @@ class BuyCoinControllerTest1 extends TestCase
     /**
      * @test
      */
-    public function prueba()
+    public function checkIfCorrectInfoOfCoinInApi()
     {
         $api =  new APICliente();
         $result = $api->getCoinInfo(90);
