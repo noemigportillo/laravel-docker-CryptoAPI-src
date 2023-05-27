@@ -3,17 +3,19 @@
 namespace App\Infrastructure\Persistence;
 
 use App\Application\UserDataSource\UserDataSource;
-use App\Domain\Wallet;
+use App\Domain\User;
+use Illuminate\Support\Facades\Cache;
 
+/**
+ * @SuppressWarnings(PHPMD.StaticAccess)
+ */
 class FileUserDataSource implements UserDataSource
 {
-    public function findByEmail(string $email): Wallet
+    public function findById(string $user_id): ?User
     {
-        return new Wallet(1, "email@email.com");
-    }
-
-    public function getAll(): array
-    {
-        return [new Wallet(1, "email@email.com"), new Wallet(2, "another_email@email.com")];
+        if (!Cache::has($user_id)) {
+            return null;
+        }
+        return Cache::get($user_id);
     }
 }
