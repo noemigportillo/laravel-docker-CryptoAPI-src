@@ -4,10 +4,9 @@ namespace App\Application\WalletDataSource;
 
 use App\Domain\Wallet;
 
-/**
- * @SuppressWarnings(PHPMD.StaticAccess)
- */
 interface WalletDataSource
 {
+    public function getWalletInfo(string $wallet_id): ?Wallet;
+
     public function saveWallet(Wallet $wallet): void;
 }
