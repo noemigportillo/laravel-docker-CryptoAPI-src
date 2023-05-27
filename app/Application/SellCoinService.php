@@ -49,7 +49,7 @@ class SellCoinService
             throw new CoinNotFoundException();
         }
         if ($coinDeWallet->getAmount() < $coin->getAmount()) {
-            throw new \Exception("No suficiente amount");
+            throw new Exception("No suficiente amount");
         }
         //$coin->setAmount($coinDeWallet->getAmount() < $coin->getAmount(););
         $this->walletDataSource->saveWallet();
