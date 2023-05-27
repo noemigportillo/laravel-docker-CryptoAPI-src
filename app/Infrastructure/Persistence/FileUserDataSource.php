@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Cache;
 /**
  * @SuppressWarnings(PHPMD.StaticAccess)
  */
-class FileUserDataSource implements UserDataSource
+abstract class FileUserDataSource implements UserDataSource
 {
     public function findById(string $user_id): ?User
     {

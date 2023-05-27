@@ -3,22 +3,25 @@
 namespace App\Application;
 
 use App\Application\CoinDataSource\CoinDataSource;
+use App\Application\Exceptions\WalletNotFoundException;
+use App\Application\WalletDataSource\WalletDataSource;
 use App\Infrastructure\Exceptions\CoinNotFoundException;
 use App\Domain\Coin;
+use App\Infrastructure\Persistence\ApiCoinDataSource\ApiCoinRepository;
 use Mockery\Exception;
 
 class SellCoinService
 {
-    private CoinDataSource $coinDataSource;
-    //private WalletDataSource $walletDataSource;
+    private ApiCoinRepository $apiCoinRepository;
+    private WalletDataSource $walletDataSource;
 
     /**
      * @param CoinDataSource $coinDataSource
      */
-    public function __construct(CoinDataSource $coinDataSource)
+    public function __construct(ApiCoinRepository $apiCoinRepository, WalletDataSource $walletDataSource)
     {
-        $this->coinDataSource = $coinDataSource;
-        //$this->walletDataSource = new FileWalletDataSource();
+        $this->$apiCoinRepository = $apiCoinRepository;
+        $this->walletDataSource = $walletDataSource;
     }
     public function findCoinById(array $coins, string $coinId): ?Coin
     {
@@ -29,23 +32,26 @@ class SellCoinService
         }
         return null; //Si no se encuentra la moneda, devuelve null
     }
-    public function execute(string $coin_id, $wallet_id, $amountUSD): ?Coin
+    public function execute(string $coin_id, string $wallet_id, float $amountUSD): void
     {
-        $coin = $this->coinDataSource->getCoinInfo($coin_id);
+        $wallet = $this->walletDataSource->getWalletInfo($wallet_id);
+        if (is_null($wallet)) {
+            throw new WalletNotFoundException();
+        }
+        $coin = $this->apiCoinRepository->buySell($coin_id, $amountUSD);
         if (is_null($coin)) {
             throw new CoinNotFoundException();
         }
-        /*$wallet = $this->walletDataSource->getWalletInfo($wallet_id);
-        if(is_null($wallet){
-            throw new WalletNotFoundException();
-        }*/
         //comprobar que se puede vender
-        //$coins = $wallet->getCoins();
-        $coins = $this->coinDataSource->getCoinsWallet();
-        $coin2 = $this->findCoinById($coins, $coin_id);
-        if (is_null($coin2)) { //si no esta en mi wallet
+        $coinsWallet = $wallet->getCoins();
+        $coinDeWallet = $this->findCoinById($coinsWallet, $coin_id);
+        if (is_null($coinDeWallet)) { //si no esta en mi wallet
             throw new CoinNotFoundException();
         }
-        return $coin;
+        if ($coinDeWallet->getAmount() < $coin->getAmount()) {
+            throw new Exception("No suficiente amount");
+        }
+        //$coin->setAmount($coinDeWallet->getAmount() < $coin->getAmount(););
+        $this->walletDataSource->saveWallet();
     }
 }
