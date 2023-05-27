@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.0",
+        "php": "^7.4",
         "doctrine/dbal": "^3.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^10.0",
@@ -17,7 +17,7 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
         "fakerphp/faker": "^1.9.1",
-        "mockery/mockery": "^1.4.2",
+        "mockery/mockery": "*",
         "phpmd/phpmd": "^2.13",
         "phpro/grumphp": "^1.16",
         "phpunit/phpunit": "^9.6",
