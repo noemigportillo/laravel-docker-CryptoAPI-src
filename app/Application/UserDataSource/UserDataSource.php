@@ -9,5 +9,5 @@ use App\Domain\User;
  */
 interface UserDataSource
 {
-    public function findById(string $user_id): ?User;
+    public function findByEmail(string $user_id): Wallet;
 }
