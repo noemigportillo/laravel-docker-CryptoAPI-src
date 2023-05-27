@@ -2,12 +2,19 @@
 
 namespace App\Infrastructure\Persistence\ApiCoinDataSource;
 
+use App\Domain\Coin;
+use App\Infrastructure\Persistence\APICliente;
+
 class ApiCoinRepository
 {
-    public function buy(string $coinId, float $amountUSD): void
+    private Coin $coin;
+    public function buySell(string $coinId, float $amountUSD): ?Coin
     {
-        $coinValueInUSD = 0;
-        if ($coinValueInUSD) {
-        }
+        $api =  new ApiCoinRepository();
+        $this->coin = $api->getCoinInfo($coinId);
+        $priceCoinUsd = $this->coin->getValueUsd();
+        $amountCoin = $amountUSD / $priceCoinUsd;
+        $this->coin->setAmount($amountCoin);
+        return $this->coin;
     }
 }

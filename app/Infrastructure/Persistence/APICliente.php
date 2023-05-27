@@ -3,31 +3,25 @@
 namespace App\Infrastructure\Persistence;
 
 use mysql_xdevapi\Exception;
+use App\Domain\Coin;
 
 class APICliente
 {
-    public function coinData($coinId): float
+    public function getCoinInfo(string $coin_id): ?Coin
     {
-        $curl = curl_init();
+        $url = 'https://api.coinlore.net/api/ticker/?id=' . $coin_id;
+        $data = file_get_contents($url);
+        $response = json_decode($data);
+        if ($response) {
+            $bitcoinData = $response[0]; //Obtener el primer elemento de la matriz de datos
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://api.coinlore.net/api/ticker/?id=' . $coinId,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json'
-            ),
-        ));
-        $response = curl_exec($curl);
-        if (!$response) {
-            throw new Exception('Coin Not Found');
+            //Acceder a los atributos específicos de Bitcoin
+            $id_coin = $bitcoinData->id;
+            $symbol = $bitcoinData->symbol;
+            $name = $bitcoinData->name;
+            $price = $bitcoinData->price_usd;
+            return new Coin($id_coin, $name, $symbol, 0, $price);
         }
-        $information = json_decode($response);
-        return $information->{'data'}->{'price_usd'};
+        throw new CoinNotFoundException();
     }
 }

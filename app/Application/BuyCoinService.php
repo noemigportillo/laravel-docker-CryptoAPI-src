@@ -13,6 +13,5 @@ class BuyCoinService
         if ($wallet == null) {
             throw new Exception('Wallet Not Found');
         }
-        buy($coinId, $amountUSD);
     }
 }

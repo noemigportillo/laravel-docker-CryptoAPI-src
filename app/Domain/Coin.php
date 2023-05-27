@@ -40,4 +40,24 @@ class Coin
     {
         return $this->value_usd;
     }
+    public function setId($coin_id): void
+    {
+        $this->coin_id = $coin_id;
+    }
+    public function setName($name): void
+    {
+        $this->name = $name;
+    }
+    public function setSymbol($symbol): void
+    {
+        $this->symbol = $symbol;
+    }
+    public function setAmount($amount): void
+    {
+        $this->amount = $amount;
+    }
+    public function setValueUsd($value_usd): void
+    {
+        $this->value_usd = $value_usd;
+    }
 }
