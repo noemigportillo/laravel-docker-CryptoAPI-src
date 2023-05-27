@@ -1,8 +1,10 @@
 <?php
 
 use App\Infrastructure\Controllers\GetUserController;
+use App\Infrastructure\Controllers\GetWalletCryptocurrenciesController;
 use App\Infrastructure\Controllers\IsEarlyAdopterUserController;
 use App\Infrastructure\Controllers\GetStatusController;
+use App\Infrastructure\Controllers\OpenWalletController;
 use App\Infrastructure\Controllers\SellCoinController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,4 +21,6 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/status', GetStatusController::class);
+Route::get('/wallet/{wallet_id}', GetWalletCryptocurrenciesController::class);
+Route::post('/wallet/open/', [OpenWalletController::class, '__invoke']);
 Route::post('/coin/sell', [SellCoinController::class, '__invoke']);
