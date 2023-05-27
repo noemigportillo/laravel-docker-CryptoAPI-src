@@ -155,8 +155,8 @@
   </component>
   <component name="PhpInterpreters">
     <interpreters>
-      <interpreter id="d7cb80d5-596d-45cc-8efe-b6ea2968b0a2" name="laravel-docker-cryptoapi-php:latest" home="docker://DATA" debugger_id="php.debugger.XDebug">
-        <remote_data INTERPRETER_PATH="php" HELPERS_PATH="/opt/.phpstorm_helpers" INITIALIZED="false" VALID="true" RUN_AS_ROOT_VIA_SUDO="false" DOCKER_ACCOUNT_NAME="Docker" DOCKER_IMAGE_NAME="laravel-docker-cryptoapi-php:latest" DOCKER_REMOTE_PROJECT_PATH="/opt/project" />
+      <interpreter id="d7cb80d5-596d-45cc-8efe-b6ea2968b0a2" name="laravel-docker-cryptoapi-php:latest" home="docker://DATA" false="false" debugger_id="php.debugger.XDebug">
+        <remote_data INTERPRETER_PATH="php" HELPERS_PATH="/opt/.phpstorm_helpers" VALID="true" RUN_AS_ROOT_VIA_SUDO="false" DOCKER_ACCOUNT_NAME="Docker" DOCKER_IMAGE_NAME="laravel-docker-cryptoapi-php:latest" DOCKER_REMOTE_PROJECT_PATH="/opt/project" />
       </interpreter>
     </interpreters>
   </component>
