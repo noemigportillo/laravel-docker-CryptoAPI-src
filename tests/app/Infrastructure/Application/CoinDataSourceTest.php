@@ -22,7 +22,7 @@ class CoinDataSourceTest extends TestCase
     /**
      * @test
      */
-    public function getCoinWallet()
+    public function getCoin()
     {
         $coin1 = new Coin("90", "Bitcoin", "BTC", 1.2, 26721.88);
         $coin2 = new Coin("coinId2", "name2", "symbol2", 2.2, 2.3);
@@ -45,7 +45,7 @@ class CoinDataSourceTest extends TestCase
     /**
      * @test
      */
-    public function getCoinWalletException()
+    public function getCoinException()
     {
         $coin1 = new Coin("90", "Bitcoin", "BTC", 1.2, 26721.88);
         $coin2 = new Coin("coinId2", "name2", "symbol2", 2.2, 2.3);

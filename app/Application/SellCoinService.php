@@ -15,10 +15,10 @@ class SellCoinService
     /**
      * @param CoinDataSource $coinDataSource
      */
-    public function __construct(CoinDataSource $coinDataSource) //añadir wallet
+    public function __construct(CoinDataSource $coinDataSource)
     {
         $this->coinDataSource = $coinDataSource;
-        //$this->walletDataSource = $walletDataSource;
+        //$this->walletDataSource = new FileWalletDataSource();
     }
     public function findCoinById(array $coins, string $coinId): ?Coin
     {

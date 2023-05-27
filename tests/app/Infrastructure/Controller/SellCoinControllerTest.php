@@ -25,4 +25,44 @@ class SellCoinControllerTest extends TestCase
             return $this->coinDataSource;
         });
     }
+    /**
+     * @test
+     */
+    public function coinNotFound()
+    {
+        $this->coinDataSource
+            ->expects('getCoinInfo')
+            ->with('coin_id')
+            ->andReturn(null);
+
+        $response = $this->post('/api/coin/sell', ['coin_id' => 'coin_id']);
+
+        $response->assertNotFound();
+        $response->assertExactJson(['a coin with the specified ID was not found.']);
+    }
+
+    /**
+     * @test
+     */
+    public function searchCoinAndReturnsOk()
+    {
+        $coin = new Coin('90', "Bitcoin", "BTC", 1.2, 26721.88);
+        $arrayCoins = [$coin];
+        $this->coinDataSource
+            ->expects('getCoinInfo')
+            ->with('90')
+            ->andReturn($coin);
+        $this->coinDataSource
+            ->expects('getCoinsWallet')
+            ->with()
+            ->andReturn($arrayCoins);
+
+        $response = $this->post(
+            '/api/coin/sell',
+            ['coin_id' => '90', 'wallet_id' => 'wallet_id', 'amountUSD' => '1.2']
+        );
+
+        $response->assertOk();
+        $response->assertExactJson(['coin_id' => '90']);
+    }
 }
