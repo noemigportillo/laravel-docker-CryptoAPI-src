@@ -8,19 +8,21 @@ use App\Application\WalletCryptocurrenciesService;
 use App\Application\WalletDataSource\WalletDataSource;
 use App\Domain\Coin;
 use App\Domain\Wallet;
+use App\Infrastructure\Persistence\FileWalletDataSource;
 use PHPUnit\Framework\TestCase;
 use App\Infrastructure\Exceptions\CoinNotFoundException;
 use Mockery;
+use Exception;
 
 class SellCoinServiceTest extends TestCase
 {
     private WalletDataSource $walletDataSource;
-    private WalletCryptocurrenciesService $walletCryptocurrenciesService;
+    private FileWalletDataSource $fileWalletDataSource;
 
     protected function setUp(): void
     {
         $this->walletDataSource = Mockery::mock(WalletDataSource::class);
-        $this->walletCryptocurrenciesService = new WalletCryptocurrenciesService($this->walletDataSource);
+        $this->fileWalletDataSource = new FileWalletDataSource($this->walletDataSource);
     }
 
     /**
@@ -57,5 +59,25 @@ class SellCoinServiceTest extends TestCase
         $sellCoinService = new SellCoinService($this->walletDataSource);
         $this->expectException(CoinNotFoundException::class);
         $sellCoinService->execute("coin", "wallet_id", "3");
+    }
+
+    /**
+     * @test
+     */
+    public function coinNotFoundInWallet()
+    {
+        $coin = new Coin('90', "Bitcoin", "BTC", 0, 26721.88);
+        $coins = array($coin);
+        $wallet = new Wallet("userId", "wallet_id", $coins, 0.4);
+
+        $this->walletDataSource
+            ->expects('getWalletInfo')
+            ->with("wallet_id")
+            ->andReturn($wallet);
+
+        $sellCoinService = new SellCoinService($this->walletDataSource);
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('No suficiente amount');
+        $sellCoinService->execute("90", "wallet_id", "3");
     }
 }

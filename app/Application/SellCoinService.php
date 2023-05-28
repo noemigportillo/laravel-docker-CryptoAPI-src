@@ -15,9 +15,7 @@ class SellCoinService
     private ApiCoinRepository $apiCoinRepository;
     private WalletDataSource $walletDataSource;
 
-    /**
-     * @param CoinDataSource $coinDataSource
-     */
+
     public function __construct(WalletDataSource $walletDataSource)
     {
         $this->walletDataSource = $walletDataSource;
