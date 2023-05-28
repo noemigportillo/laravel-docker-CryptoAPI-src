@@ -10,7 +10,10 @@ class ApiCoinRepository
     private Coin $coin;
     public function buySell(string $coinId, float $amountUSD): ?Coin
     {
-        $api =  new APICliente();
+        $api = new APICliente();
+        if (is_null($api->getCoinInfo($coinId))) {
+            return null;
+        }
         $this->coin = $api->getCoinInfo($coinId);
         $priceCoinUsd = $this->coin->getValueUsd();
         $amountCoin = $amountUSD / $priceCoinUsd;

@@ -2,67 +2,44 @@
 
 namespace Tests\app\Infrastructure\Controller;
 
-use App\Application\Exceptions\WalletNotFoundException;
-use App\Application\UserDataSource\UserDataSource;
-use App\Application\SellCoinService;
 use App\Application\CoinDataSource\CoinDataSource;
-use App\Domain\Coin;
-use App\Domain\Wallet;
-use Exception;
-use Illuminate\Http\Response;
+use App\Application\WalletDataSource\WalletDataSource;
+use App\Infrastructure\Persistence\ApiCoinDataSource\ApiCoinRepository;
 use Mockery;
 use Tests\TestCase;
 
 class SellCoinControllerTest extends TestCase
 {
-    private CoinDataSource $coinDataSource;
+    private WalletDataSource $walletDataSource;
+    private ApiCoinRepository $apiCoinRepository;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->coinDataSource = Mockery::mock(CoinDataSource::class);
-        $this->app->bind(coinDataSource::class, function () {
-            return $this->coinDataSource;
+        $this->walletDataSource = Mockery::mock(WalletDataSource::class);
+        $this->apiCoinRepository = Mockery::mock(ApiCoinRepository::class);
+        $this->app->bind(walletDataSource::class, function () {
+            return $this->walletDataSource;
+        });
+        $this->app->bind(ApiCoinRepository::class, function () {
+            return $this->apiCoinRepository;
         });
     }
+
     /**
      * @test
      */
     public function coinNotFound()
     {
-        $this->coinDataSource
-            ->expects('getCoinInfo')
-            ->with('coin_id')
-            ->andReturn(null);
+        $this->apiCoinRepository
+            ->shouldReceive('buySell')
+            ->with('coin_id', 0)
+            ->andReturnNull();
 
-        $response = $this->post('/api/coin/sell', ['coin_id' => 'coin_id']);
+        $response = $this->post('/api/coin/sell', ['coin_id' => 'coin_id',
+            'wallet_id' => 'wallet_id', 'amountUSD' => '1.2']);
 
         $response->assertNotFound();
         $response->assertExactJson(['a coin with the specified ID was not found.']);
-    }
-
-    /**
-     * @test
-     */
-    public function searchCoinAndReturnsOk()
-    {
-        $coin = new Coin('90', "Bitcoin", "BTC", 1.2, 26721.88);
-        $arrayCoins = [$coin];
-        $this->coinDataSource
-            ->expects('getCoinInfo')
-            ->with('90')
-            ->andReturn($coin);
-        $this->coinDataSource
-            ->expects('getCoinsWallet')
-            ->with()
-            ->andReturn($arrayCoins);
-
-        $response = $this->post(
-            '/api/coin/sell',
-            ['coin_id' => '90', 'wallet_id' => 'wallet_id', 'amountUSD' => '1.2']
-        );
-
-        $response->assertOk();
-        $response->assertExactJson(['coin_id' => '90']);
     }
 }

@@ -23,6 +23,6 @@ class APICliente
             $price = $bitcoinData->price_usd;
             return new Coin($id_coin, $name, $symbol, 0, $price);
         }
-        throw new CoinNotFoundException();
+        return null;
     }
 }

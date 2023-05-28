@@ -101,7 +101,6 @@ class SellCoinServiceTest extends TestCase
 
         $sellCoinService = new SellCoinService($this->walletDataSource);
         $sellCoinService->execute("90", "wallet_id", 30000);
-
         $this->assertTrue(true);
     }
 }
