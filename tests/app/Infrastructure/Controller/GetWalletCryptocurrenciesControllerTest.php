@@ -16,7 +16,7 @@ use Tests\TestCase;
 class GetWalletCryptocurrenciesControllerTest extends TestCase
 {
     private WalletDataSource $walletDataSource;
-    /*private WalletCryptocurrenciesService $walletCryptocurrenciesService;*/
+
     protected function setUp(): void
     {
         parent::setUp();

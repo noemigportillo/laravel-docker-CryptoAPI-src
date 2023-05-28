@@ -12,15 +12,6 @@ use Illuminate\Routing\Controller as BaseController;
 
 class GetWalletCryptocurrenciesController extends BaseController
 {
-    /*public function __invoke(): JsonResponse
-    {
-        return response()->json([
-            'status' => 'Ok',
-            'message' => 'Systems are up and running',
-        ], Response::HTTP_OK);
-    }*/
-
-    // private WalletDataSource $walletDataSource;
     private WalletCryptocurrenciesService $walletCryptocurrenciesService;
 
     /**
@@ -37,7 +28,6 @@ class GetWalletCryptocurrenciesController extends BaseController
         try {
             $coins = $this->walletCryptocurrenciesService->execute($wallet_id);
 
-            // Successful operation
             $publicCoins = array_map(function ($coin) {
                 return [
                     'coin_id' => $coin->getId(),
