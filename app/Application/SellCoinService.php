@@ -15,12 +15,9 @@ class SellCoinService
     private ApiCoinRepository $apiCoinRepository;
     private WalletDataSource $walletDataSource;
 
-    /**
-     * @param CoinDataSource $coinDataSource
-     */
-    public function __construct(ApiCoinRepository $apiCoinRepository, WalletDataSource $walletDataSource)
+
+    public function __construct(WalletDataSource $walletDataSource)
     {
-        $this->$apiCoinRepository = $apiCoinRepository;
         $this->walletDataSource = $walletDataSource;
     }
     public function findCoinById(array $coins, string $coinId): ?Coin
@@ -32,12 +29,22 @@ class SellCoinService
         }
         return null; //Si no se encuentra la moneda, devuelve null
     }
+    public function unsetCoinById(array $coins, string $coinId): array
+    {
+        foreach ($coins as $i => $coin) {
+            if ($coin->getId() === $coinId) {
+                unset($coins[$i]);
+            }
+        }
+        return $coins;
+    }
     public function execute(string $coin_id, string $wallet_id, float $amountUSD): void
     {
         $wallet = $this->walletDataSource->getWalletInfo($wallet_id);
         if (is_null($wallet)) {
             throw new WalletNotFoundException();
         }
+        $this->apiCoinRepository = new ApiCoinRepository();
         $coin = $this->apiCoinRepository->buySell($coin_id, $amountUSD);
         if (is_null($coin)) {
             throw new CoinNotFoundException();
@@ -52,7 +59,7 @@ class SellCoinService
             throw new Exception("No suficiente amount");
         }
         $coin->setAmount($coinDeWallet->getAmount() - $coin->getAmount());
-        unset($coinsWallet[$coin_id]);
+        $coinsWallet = $this->unsetCoinById($coinsWallet, $coin_id);
         $coinsWallet[] = $coin;
         $wallet->setCoins($coinsWallet);
         $this->walletDataSource->saveWallet($wallet);

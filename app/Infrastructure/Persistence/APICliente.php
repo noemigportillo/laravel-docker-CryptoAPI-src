@@ -5,7 +5,6 @@ namespace App\Infrastructure\Persistence;
 use mysql_xdevapi\Exception;
 use App\Domain\Coin;
 use App\Infrastructure\Exceptions\CoinNotFoundException;
-use App\Application\BuyCoinService;
 
 class APICliente
 {
