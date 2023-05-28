@@ -29,6 +29,15 @@ class SellCoinService
         }
         return null; //Si no se encuentra la moneda, devuelve null
     }
+    public function unsetCoinById(array $coins, string $coinId): array
+    {
+        foreach ($coins as $i => $coin) {
+            if ($coin->getId() === $coinId) {
+                unset($coins[$i]);
+            }
+        }
+        return $coins;
+    }
     public function execute(string $coin_id, string $wallet_id, float $amountUSD): void
     {
         $wallet = $this->walletDataSource->getWalletInfo($wallet_id);
@@ -50,7 +59,7 @@ class SellCoinService
             throw new Exception("No suficiente amount");
         }
         $coin->setAmount($coinDeWallet->getAmount() - $coin->getAmount());
-        unset($coinsWallet[$coin_id]);
+        $coinsWallet = $this->unsetCoinById($coinsWallet, $coin_id);
         $coinsWallet[] = $coin;
         $wallet->setCoins($coinsWallet);
         $this->walletDataSource->saveWallet($wallet);
