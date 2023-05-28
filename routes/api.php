@@ -25,3 +25,4 @@ Route::get('/status', GetStatusController::class);
 Route::get('/wallet/{wallet_id}', GetWalletCryptocurrenciesController::class);
 Route::post('/wallet/open/', [OpenWalletController::class, '__invoke']);
 Route::post('/coin/sell', [SellCoinController::class, '__invoke']);
+Route::post('/coin/buy', [BuyCoinController::class, '__invoke']);
