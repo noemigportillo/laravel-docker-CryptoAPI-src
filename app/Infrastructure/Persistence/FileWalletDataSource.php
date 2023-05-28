@@ -15,4 +15,13 @@ class FileWalletDataSource implements WalletDataSource
     {
         Cache::put($wallet->getWalletId(), $wallet);
     }
+
+    public function getWalletInfo(string $wallet_id): ?Wallet
+    {
+        if (Cache::has($wallet_id)) {
+            return Cache::get($wallet_id);
+        }
+
+        return null;
+    }
 }
