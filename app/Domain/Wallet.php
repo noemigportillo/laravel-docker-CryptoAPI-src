@@ -33,4 +33,8 @@ class Wallet
     {
         return $this->balance_usd;
     }
+    public function setCoins($coins): void
+    {
+        $this->coins = $coins;
+    }
 }
