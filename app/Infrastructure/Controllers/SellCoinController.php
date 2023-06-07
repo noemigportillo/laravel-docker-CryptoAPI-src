@@ -19,7 +19,7 @@ class SellCoinController extends BaseController
     public function __invoke(Request $bodyPetition): JsonResponse
     {
         try {
-            $coin = $this->sellCoinService->execute(
+            $this->sellCoinService->execute(
                 $bodyPetition->input("coin_id"),
                 $bodyPetition->input("wallet_id"),
                 $bodyPetition->input("amount_usd")

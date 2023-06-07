@@ -60,7 +60,7 @@ class SellCoinControllerTest extends TestCase
             ->expects('getWalletInfo')
             ->with("wallet_id")
             ->andReturn($wallet);
-        
+
         $this->walletDataSource
             ->shouldReceive('saveWallet')
             ->once()
