@@ -52,7 +52,7 @@ class SellCoinService
 
         $coinsWallet = $wallet->getCoins();
         $coinDeWallet = $this->findCoinById($coinsWallet, $coin_id);
-        if (is_null($coinDeWallet)) { //si no esta en mi wallet
+        if (is_null($coinDeWallet)) {
             throw new CoinNotFoundException();
         }
         if ($coinDeWallet->getAmount() < $coin->getAmount()) {
