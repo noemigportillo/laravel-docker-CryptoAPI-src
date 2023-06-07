@@ -8,7 +8,7 @@ use App\Infrastructure\Persistence\APICliente;
 class ApiCoinRepository
 {
     private Coin $coin;
-    public function buySell(string $coinId, float $amountUSD): ?Coin
+    public function buySell(string $coinId, float $amount_usd): ?Coin
     {
         $api = new APICliente();
         if (is_null($api->getCoinInfo($coinId))) {
@@ -16,7 +16,7 @@ class ApiCoinRepository
         }
         $this->coin = $api->getCoinInfo($coinId);
         $priceCoinUsd = $this->coin->getValueUsd();
-        $amountCoin = $amountUSD / $priceCoinUsd;
+        $amountCoin = $amount_usd / $priceCoinUsd;
         $this->coin->setAmount($amountCoin);
         return $this->coin;
     }

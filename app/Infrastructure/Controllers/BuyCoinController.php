@@ -30,7 +30,7 @@ class BuyCoinController extends BaseController
             ], Response::HTTP_NOT_FOUND);
         }
         return response()->json([
-            'coin_id' => $coin->getId()
+            'successful operation'
         ], Response::HTTP_OK);
     }
 }

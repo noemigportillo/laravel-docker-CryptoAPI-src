@@ -33,14 +33,14 @@ class BuyCoinService
             return $coin->getId() !== $coinId;
         });
     }
-    public function execute(string $coin_id, string $wallet_id, float $amountUSD): void
+    public function execute(string $coin_id, string $wallet_id, float $amount_usd): void
     {
         $wallet = $this->walletDataSource->getWalletInfo($wallet_id);
         if (is_null($wallet)) {
             throw new WalletNotFoundException();
         }
         $this->apiCoinRepository = new ApiCoinRepository();
-        $coin = $this->apiCoinRepository->buySell($coin_id, $amountUSD);
+        $coin = $this->apiCoinRepository->buySell($coin_id, $amount_usd);
         if (is_null($coin)) {
             throw new CoinNotFoundException();
         }
