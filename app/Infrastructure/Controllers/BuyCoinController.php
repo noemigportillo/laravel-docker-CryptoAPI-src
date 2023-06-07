@@ -22,7 +22,7 @@ class BuyCoinController extends BaseController
             $coin = $this->buyCoinService->execute(
                 $bodyPetition->input("coin_id"),
                 $bodyPetition->input("wallet_id"),
-                $bodyPetition->input("amountUSD")
+                $bodyPetition->input("amount_usd")
             );
         } catch (\Exception $ex) {
             return response()->json([

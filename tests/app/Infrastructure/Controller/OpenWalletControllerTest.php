@@ -3,9 +3,7 @@
 namespace Tests\app\Infrastructure\Controller;
 
 use App\Application\UserDataSource\UserDataSource;
-use App\Domain\User;
 use App\Infrastructure\Persistence\FileUserDataSource;
-use Mockery;
 use Tests\TestCase;
 
 class OpenWalletControllerTest extends TestCase

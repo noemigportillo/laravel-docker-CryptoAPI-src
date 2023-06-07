@@ -1,18 +1,17 @@
 <?php
 
-namespace Tests\app\Infrastructure\Application;
+namespace Tests\app\Application;
 
+use App\Application\Exceptions\CoinNotFoundException;
 use App\Application\Exceptions\WalletNotFoundException;
 use App\Application\SellCoinService;
-use App\Application\WalletCryptocurrenciesService;
 use App\Application\WalletDataSource\WalletDataSource;
 use App\Domain\Coin;
 use App\Domain\Wallet;
 use App\Infrastructure\Persistence\FileWalletDataSource;
-use PHPUnit\Framework\TestCase;
-use App\Infrastructure\Exceptions\CoinNotFoundException;
-use Mockery;
 use Exception;
+use Mockery;
+use PHPUnit\Framework\TestCase;
 
 class SellCoinServiceTest extends TestCase
 {
@@ -22,7 +21,7 @@ class SellCoinServiceTest extends TestCase
     protected function setUp(): void
     {
         $this->walletDataSource = Mockery::mock(WalletDataSource::class);
-        $this->fileWalletDataSource = new FileWalletDataSource($this->walletDataSource);
+        $this->fileWalletDataSource = new FileWalletDataSource();
     }
 
     /**

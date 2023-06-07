@@ -3,13 +3,11 @@
 namespace App\Application;
 
 use App\Application\CoinDataSource\CoinDataSource;
+use App\Application\Exceptions\CoinNotFoundException;
 use App\Application\Exceptions\WalletNotFoundException;
 use App\Application\WalletDataSource\WalletDataSource;
-use App\Infrastructure\Exceptions\CoinNotFoundException;
-use App\Infrastructure\Persistence\ApiCoinDataSource\ApiCoinRepository;
-use mysql_xdevapi\Exception;
 use App\Domain\Coin;
-use App\Domain\Wallet;
+use App\Infrastructure\Persistence\ApiCoinDataSource\ApiCoinRepository;
 
 class BuyCoinService
 {
@@ -27,7 +25,7 @@ class BuyCoinService
                 return $coin;
             }
         }
-        return null; //Si no se encuentra la moneda, devuelve null
+        return null;
     }
     public function removeCoinById(array $coins, string $coinId): array
     {
