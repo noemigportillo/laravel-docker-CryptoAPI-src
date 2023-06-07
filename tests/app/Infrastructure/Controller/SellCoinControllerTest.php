@@ -37,7 +37,7 @@ class SellCoinControllerTest extends TestCase
             ->andReturnNull();
 
         $response = $this->post('/api/coin/sell', ['coin_id' => 'coin_id',
-            'wallet_id' => 'wallet_id', 'amountUSD' => '1.2']);
+            'wallet_id' => 'wallet_id', 'amount_usd' => '1.2']);
 
         $response->assertNotFound();
         $response->assertExactJson(['a coin with the specified ID was not found.']);

@@ -22,7 +22,7 @@ class SellCoinController extends BaseController
             $coin = $this->sellCoinService->execute(
                 $bodyPetition->input("coin_id"),
                 $bodyPetition->input("wallet_id"),
-                $bodyPetition->input("amountUSD")
+                $bodyPetition->input("amount_usd")
             );
         } catch (\Exception $ex) {
             return response()->json([
@@ -30,7 +30,7 @@ class SellCoinController extends BaseController
             ], Response::HTTP_NOT_FOUND);
         }
         return response()->json([
-            'coin_id' => $coin->getId()
+            'successful operation'
         ], Response::HTTP_OK);
     }
 }
