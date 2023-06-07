@@ -5,11 +5,10 @@ namespace Tests\app\Infrastructure\Controller;
 use App\Application\CoinDataSource\CoinDataSource;
 use App\Application\WalletDataSource\WalletDataSource;
 use App\Infrastructure\Persistence\ApiCoinDataSource\ApiCoinRepository;
-use App\Application\BuyCoinService;
 use Mockery;
 use Tests\TestCase;
 
-class BuyCoinControllerTest1 extends TestCase
+class BuyCoinControllerTest extends TestCase
 {
     private WalletDataSource $walletDataSource;
     private ApiCoinRepository $apiCoinRepository;
@@ -38,7 +37,7 @@ class BuyCoinControllerTest1 extends TestCase
             ->andReturnNull();
 
         $response = $this->post('/api/coin/buy', ['coin_id' => 'coin_id',
-            'wallet_id' => 'wallet_id', 'amountUSD' => '1.2']);
+            'wallet_id' => 'wallet_id', 'amount_usd' => '1.2']);
 
         $response->assertNotFound();
         $response->assertExactJson(['a coin with the specified ID was not found.']);

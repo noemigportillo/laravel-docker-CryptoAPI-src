@@ -2,13 +2,9 @@
 
 namespace Tests\app\Infrastructure\Controller;
 
-use App\Application\Exceptions\WalletNotFoundException;
-use App\Application\UserDataSource\UserDataSource;
-use App\Application\WalletCryptocurrenciesService;
 use App\Application\WalletDataSource\WalletDataSource;
 use App\Domain\Coin;
 use App\Domain\Wallet;
-use Exception;
 use Illuminate\Http\Response;
 use Mockery;
 use Tests\TestCase;

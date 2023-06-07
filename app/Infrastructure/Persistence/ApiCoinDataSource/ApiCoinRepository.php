@@ -4,7 +4,6 @@ namespace App\Infrastructure\Persistence\ApiCoinDataSource;
 
 use App\Domain\Coin;
 use App\Infrastructure\Persistence\APICliente;
-use App\Application\BuyCoinService;
 
 class ApiCoinRepository
 {

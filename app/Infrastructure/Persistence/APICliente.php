@@ -2,9 +2,7 @@
 
 namespace App\Infrastructure\Persistence;
 
-use mysql_xdevapi\Exception;
 use App\Domain\Coin;
-use App\Infrastructure\Exceptions\CoinNotFoundException;
 
 class APICliente
 {
@@ -14,9 +12,8 @@ class APICliente
         $data = file_get_contents($url);
         $response = json_decode($data);
         if ($response) {
-            $bitcoinData = $response[0]; //Obtener el primer elemento de la matriz de datos
+            $bitcoinData = $response[0];
 
-            //Acceder a los atributos específicos de Bitcoin
             $id_coin = $bitcoinData->id;
             $symbol = $bitcoinData->symbol;
             $name = $bitcoinData->name;

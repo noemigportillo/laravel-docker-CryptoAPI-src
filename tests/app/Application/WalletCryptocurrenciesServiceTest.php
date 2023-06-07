@@ -1,14 +1,12 @@
 <?php
 
-namespace Tests\app\Infrastructure\Application;
+namespace Tests\app\Application;
 
 use App\Application\Exceptions\WalletNotFoundException;
 use App\Application\WalletCryptocurrenciesService;
 use App\Application\WalletDataSource\WalletDataSource;
 use App\Domain\Coin;
 use App\Domain\Wallet;
-use Exception;
-use Illuminate\Http\Response;
 use Mockery;
 use Tests\TestCase;
 

@@ -2,18 +2,17 @@
 
 namespace Tests\app\Application;
 
-use App\Application\Exceptions\WalletNotFoundException;
 use App\Application\BuyCoinService;
-use App\Application\WalletCryptocurrenciesService;
+use App\Application\Exceptions\CoinNotFoundException;
+use App\Application\Exceptions\WalletNotFoundException;
 use App\Application\WalletDataSource\WalletDataSource;
 use App\Domain\Coin;
 use App\Domain\Wallet;
 use App\Infrastructure\Persistence\FileWalletDataSource;
-use PHPUnit\Framework\TestCase;
-use App\Infrastructure\Exceptions\CoinNotFoundException;
 use Mockery;
+use PHPUnit\Framework\TestCase;
 
-class BuyCoinServiceTest1 extends TestCase
+class BuyCoinServiceTest extends TestCase
 {
     private WalletDataSource $walletDataSource;
     private FileWalletDataSource $fileWalletDataSource;

@@ -4,10 +4,7 @@ namespace Tests\app\Application;
 
 use App\Application\OpenWallet\OpenWalletService;
 use App\Application\UserDataSource\UserDataSource;
-use App\Application\WalletDataSource\WalletDataSource;
-use App\Domain\User;
 use App\Infrastructure\Persistence\FileUserDataSource;
-use Mockery;
 use Tests\TestCase;
 
 class OpenWalletServiceTest extends TestCase

@@ -3,9 +3,9 @@
 namespace App\Application;
 
 use App\Application\CoinDataSource\CoinDataSource;
+use App\Application\Exceptions\CoinNotFoundException;
 use App\Application\Exceptions\WalletNotFoundException;
 use App\Application\WalletDataSource\WalletDataSource;
-use App\Infrastructure\Exceptions\CoinNotFoundException;
 use App\Domain\Coin;
 use App\Infrastructure\Persistence\ApiCoinDataSource\ApiCoinRepository;
 use Mockery\Exception;
@@ -27,7 +27,7 @@ class SellCoinService
                 return $coin;
             }
         }
-        return null; //Si no se encuentra la moneda, devuelve null
+        return null;
     }
     public function unsetCoinById(array $coins, string $coinId): array
     {
@@ -49,7 +49,7 @@ class SellCoinService
         if (is_null($coin)) {
             throw new CoinNotFoundException();
         }
-        //comprobar que se puede vender
+
         $coinsWallet = $wallet->getCoins();
         $coinDeWallet = $this->findCoinById($coinsWallet, $coin_id);
         if (is_null($coinDeWallet)) { //si no esta en mi wallet
