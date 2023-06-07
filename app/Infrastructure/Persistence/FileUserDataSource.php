@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Cache;
 /**
  * @SuppressWarnings(PHPMD.StaticAccess)
  */
-abstract class FileUserDataSource implements UserDataSource
+class FileUserDataSource implements UserDataSource
 {
     public function findById(string $user_id): ?User
     {
@@ -17,5 +17,12 @@ abstract class FileUserDataSource implements UserDataSource
             return null;
         }
         return Cache::get($user_id);
+    }
+
+    public function addUser(string $user_id, string $email): User
+    {
+        $user = new User($user_id, $email);
+        Cache::put($user_id, $user);
+        return $user;
     }
 }

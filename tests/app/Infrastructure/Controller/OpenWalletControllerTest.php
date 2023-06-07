@@ -4,6 +4,7 @@ namespace Tests\app\Infrastructure\Controller;
 
 use App\Application\UserDataSource\UserDataSource;
 use App\Domain\User;
+use App\Infrastructure\Persistence\FileUserDataSource;
 use Mockery;
 use Tests\TestCase;
 
@@ -13,21 +14,13 @@ class OpenWalletControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->userDataSource = Mockery::mock(UserDataSource::class);
-        $this->app->bind(UserDataSource::class, function () {
-            return $this->userDataSource;
-        });
+        $this->userDataSource = new FileUserDataSource();
     }
     /**
      * @test
      */
     public function userNotFoundCauseErrorOpeningWallet()
     {
-        $this->userDataSource
-            ->expects('findById')
-            ->with('user_id')
-            ->andReturn(null);
-
         $response = $this->post('/api/wallet/open', ['user_id' => 'user_id']);
 
         $response->assertNotFound();
@@ -40,14 +33,11 @@ class OpenWalletControllerTest extends TestCase
      */
     public function openedWalletReturnsOk()
     {
-        $this->userDataSource
-            ->expects('findById')
-            ->with('user_1')
-            ->andReturn(new User("user_1", "email@email.com"));
+        $this->userDataSource->addUser("user_1", "email@email.com");
 
         $response = $this->post('/api/wallet/open', ['user_id' => 'user_1']);
 
         $response->assertOk();
-        $response->assertExactJson(['wallet_id' => 'user_1']);
+        $response->assertExactJson(['wallet_id' => 'wallet_user_1']);
     }
 }

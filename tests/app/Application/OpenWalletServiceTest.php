@@ -6,23 +6,19 @@ use App\Application\OpenWallet\OpenWalletService;
 use App\Application\UserDataSource\UserDataSource;
 use App\Application\WalletDataSource\WalletDataSource;
 use App\Domain\User;
+use App\Infrastructure\Persistence\FileUserDataSource;
 use Mockery;
 use Tests\TestCase;
 
 class OpenWalletServiceTest extends TestCase
 {
     private UserDataSource $userDataSource;
-    private WalletDataSource $walletDataSource;
     private OpenWalletService $openWalletService;
     protected function setUp(): void
     {
         parent::setUp();
-        $this->userDataSource = Mockery::mock(UserDataSource::class);
-        $this->app->bind(UserDataSource::class, function () {
-            return $this->userDataSource;
-        });
-
-        $this->openWalletService = new OpenWalletService($this->userDataSource);
+        $this->userDataSource = new FileUserDataSource();
+        $this->openWalletService = new OpenWalletService();
     }
 
     /**
@@ -30,10 +26,10 @@ class OpenWalletServiceTest extends TestCase
      */
     public function isWalletOpening()
     {
-        $this->userDataSource->expects("findById")->andReturn(new User("user_id", "email@email.com"));
+        $this->userDataSource->addUser("user_id", "email@email.com");
 
-        $result = $this->openWalletService->execute("");
+        $result = $this->openWalletService->execute("user_id");
 
-        $this->assertEquals("user_id", $result);
+        $this->assertEquals("wallet_user_id", $result);
     }
 }
