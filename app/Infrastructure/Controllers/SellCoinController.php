@@ -26,7 +26,7 @@ class SellCoinController extends BaseController
             );
         } catch (\Exception $ex) {
             return response()->json([
-                'a coin with the specified ID was not found.'
+                'A coin with the specified ID was not found.'
             ], Response::HTTP_NOT_FOUND);
         }
         return response()->json([

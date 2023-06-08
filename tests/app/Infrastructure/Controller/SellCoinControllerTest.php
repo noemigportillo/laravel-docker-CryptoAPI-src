@@ -43,7 +43,7 @@ class SellCoinControllerTest extends TestCase
             'wallet_id' => 'wallet_id', 'amount_usd' => '1.2']);
 
         $response->assertNotFound();
-        $response->assertExactJson(['a coin with the specified ID was not found.']);
+        $response->assertExactJson(['A coin with the specified ID was not found.']);
     }
 
     /**
