@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Controllers;
 
-use App\Application\SellCoinService;
+use App\Application\SellCoin\SellCoinService;
 use Barryvdh\Debugbar\Controllers\BaseController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

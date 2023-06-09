@@ -2,7 +2,7 @@
 
 namespace Tests\app\Application;
 
-use App\Application\BuyCoinService;
+use App\Application\BuyCoin\BuyCoinService;
 use App\Application\Exceptions\CoinNotFoundException;
 use App\Application\Exceptions\WalletNotFoundException;
 use App\Application\WalletDataSource\WalletDataSource;
