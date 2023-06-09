@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application;
+namespace App\Application\BuyCoin;
 
 use App\Application\CoinDataSource\CoinDataSource;
 use App\Application\Exceptions\CoinNotFoundException;
@@ -8,13 +8,11 @@ use App\Application\Exceptions\WalletNotFoundException;
 use App\Application\WalletDataSource\WalletDataSource;
 use App\Domain\Coin;
 use App\Infrastructure\Persistence\ApiCoinDataSource\ApiCoinRepository;
-use Mockery\Exception;
 
-class SellCoinService
+class BuyCoinService
 {
     private ApiCoinRepository $apiCoinRepository;
     private WalletDataSource $walletDataSource;
-
 
     public function __construct(WalletDataSource $walletDataSource)
     {
@@ -29,39 +27,36 @@ class SellCoinService
         }
         return null;
     }
-    public function unsetCoinById(array $coins, string $coinId): array
+    public function removeCoinById(array $coins, string $coinId): array
     {
-        foreach ($coins as $i => $coin) {
-            if ($coin->getId() === $coinId) {
-                unset($coins[$i]);
-            }
-        }
-        return $coins;
+        return array_filter($coins, function ($coin) use ($coinId) {
+            return $coin->getId() !== $coinId;
+        });
     }
-    public function execute(string $coin_id, string $wallet_id, float $amount_usd): void
+    public function execute(string $coin_id, string $wallet_id, float $amountUSD): void
     {
         $wallet = $this->walletDataSource->getWalletInfo($wallet_id);
         if (is_null($wallet)) {
             throw new WalletNotFoundException();
         }
         $this->apiCoinRepository = new ApiCoinRepository();
-        $coin = $this->apiCoinRepository->buySell($coin_id, $amount_usd);
+        $coin = $this->apiCoinRepository->buySell($coin_id, $amountUSD);
         if (is_null($coin)) {
             throw new CoinNotFoundException();
         }
-
         $coinsWallet = $wallet->getCoins();
         $coinDeWallet = $this->findCoinById($coinsWallet, $coin_id);
         if (is_null($coinDeWallet)) {
-            throw new CoinNotFoundException();
+            $coinsWallet = $wallet->getCoins();
+            $coinsWallet[] = $coin;
+            $wallet->setCoins($coinsWallet);
+            $this->walletDataSource->saveWallet($wallet);
+        } elseif (!is_null($coinDeWallet)) {
+            $coin->setAmount($coinDeWallet->getAmount() + $coin->getAmount());
+            $coinsWallet = $this->removeCoinById($coinsWallet, $coin_id);
+            $coinsWallet[] = $coin;
+            $wallet->setCoins($coinsWallet);
+            $this->walletDataSource->saveWallet($wallet);
         }
-        if ($coinDeWallet->getAmount() < $coin->getAmount()) {
-            throw new Exception("No suficiente amount");
-        }
-        $coin->setAmount($coinDeWallet->getAmount() - $coin->getAmount());
-        $coinsWallet = $this->unsetCoinById($coinsWallet, $coin_id);
-        $coinsWallet[] = $coin;
-        $wallet->setCoins($coinsWallet);
-        $this->walletDataSource->saveWallet($wallet);
     }
 }

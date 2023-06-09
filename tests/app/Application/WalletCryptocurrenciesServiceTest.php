@@ -3,7 +3,7 @@
 namespace Tests\app\Application;
 
 use App\Application\Exceptions\WalletNotFoundException;
-use App\Application\WalletCryptocurrenciesService;
+use App\Application\WalletCryptocurrencies\WalletCryptocurrenciesService;
 use App\Application\WalletDataSource\WalletDataSource;
 use App\Domain\Coin;
 use App\Domain\Wallet;
