@@ -63,7 +63,7 @@ class SellCoinServiceTest extends TestCase
     /**
      * @test
      */
-    public function coinNotFoundInWalletAndNotEnoughAmount()
+    public function coinFoundInWalletAndNotEnoughAmount()
     {
         $coin = new Coin('90', "Bitcoin", "BTC", 0, 26721.88);
         $coins = array($coin);
@@ -82,7 +82,7 @@ class SellCoinServiceTest extends TestCase
     /**
      * @test
      */
-    public function coinNotFoundInWalletAndEnoughAmount()
+    public function coinFoundInWalletAndEnoughAmount()
     {
         $coin = new Coin('90', "Bitcoin", "BTC", 5, 27086.37);
         $coin2 = new Coin('80', "Ethereum", "ETH", 5, 1848.35);
