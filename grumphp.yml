@@ -29,6 +29,3 @@ grumphp:
       triggered_by: [ php ]
       exclude: [ ]
       show_sniffs_error_path: true
-  fixer:
-    enabled: true
-    fix_by_default: true

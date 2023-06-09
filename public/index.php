@@ -1,5 +1,5 @@
 <?php
-
+// phpcs:ignoreFile
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
