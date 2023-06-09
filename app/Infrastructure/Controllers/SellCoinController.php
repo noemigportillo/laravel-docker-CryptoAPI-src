@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Controllers;
 
-use App\Application\SellCoinService;
+use App\Application\SellCoin\SellCoinService;
 use Barryvdh\Debugbar\Controllers\BaseController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -19,18 +19,18 @@ class SellCoinController extends BaseController
     public function __invoke(Request $bodyPetition): JsonResponse
     {
         try {
-            $coin = $this->sellCoinService->execute(
+            $this->sellCoinService->execute(
                 $bodyPetition->input("coin_id"),
                 $bodyPetition->input("wallet_id"),
-                $bodyPetition->input("amountUSD")
+                $bodyPetition->input("amount_usd")
             );
         } catch (\Exception $ex) {
             return response()->json([
-                'a coin with the specified ID was not found.'
+                'A coin with the specified ID was not found.'
             ], Response::HTTP_NOT_FOUND);
         }
         return response()->json([
-            'coin_id' => $coin->getId()
+            'successful operation'
         ], Response::HTTP_OK);
     }
 }

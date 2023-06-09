@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application;
+namespace App\Application\WalletCryptocurrencies;
 
 use App\Application\Exceptions\WalletNotFoundException;
 use App\Application\WalletDataSource\WalletDataSource;
