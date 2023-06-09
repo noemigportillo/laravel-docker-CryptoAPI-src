@@ -43,10 +43,11 @@ class OpenWalletServiceTest extends TestCase
      */
     public function walletOpenSuccess()
     {
-        $this->userDataSource->addUser("user_id", "email@email.com");
+        $user_id = "user_1";
+        $this->userDataSource->addUser($user_id, "email@email.com");
 
-        $result = $this->openWalletService->execute("user_id");
+        $result = $this->openWalletService->execute($user_id);
 
-        $this->assertEquals("wallet_user_id", $result);
+        $this->assertEquals("wallet_" . $user_id, $result);
     }
 }
