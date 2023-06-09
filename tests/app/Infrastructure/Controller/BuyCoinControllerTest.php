@@ -35,7 +35,7 @@ class BuyCoinControllerTest extends TestCase
     public function coinNotFound()
     {
         $this->apiCoinRepository
-            ->shouldReceive('buySell')
+            ->shouldReceive('CalculateAmountOfCoinWithAmountUsd')
             ->with('coin_id', 0)
             ->andReturnNull();
 
@@ -52,7 +52,7 @@ class BuyCoinControllerTest extends TestCase
     {
         $coin = new Coin('90', "Bitcoin", "BTC", 2, 40.000);
         $coins = array($coin);
-        $wallet = new Wallet("userId", "wallet_id", $coins, 0);
+        $wallet = new Wallet("user_Id", "wallet_id", $coins, 0);
 
         $this->walletDataSource
             ->expects('getWalletInfo')
@@ -65,7 +65,7 @@ class BuyCoinControllerTest extends TestCase
             ->with($wallet);
 
         $this->apiCoinRepository
-            ->shouldReceive('buySell')
+            ->shouldReceive('CalculateAmountOfCoinWithAmountUsd')
             ->with('90', 100)
             ->andReturn($coin);
 

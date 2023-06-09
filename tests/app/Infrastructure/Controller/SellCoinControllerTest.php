@@ -32,7 +32,7 @@ class SellCoinControllerTest extends TestCase
     public function coinNotFound()
     {
         $this->apiCoinRepository
-            ->shouldReceive('buySell')
+            ->shouldReceive('CalculateAmountOfCoinWithAmountUsd')
             ->with('coin_id', 0)
             ->andReturnNull();
 
