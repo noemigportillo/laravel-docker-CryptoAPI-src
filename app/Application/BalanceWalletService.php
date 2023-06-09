@@ -3,7 +3,6 @@
 namespace App\Application;
 
 use App\Application\Exceptions\WalletNotFoundException;
-use App\Domain\Wallet;
 use App\Infrastructure\Persistence\APICliente;
 use App\Application\WalletDataSource\WalletDataSource;
 use App\Application\CoinDataSource\CoinDataSource;
@@ -29,14 +28,14 @@ class BalanceWalletService
         if (is_null($wallet)) {
             throw new WalletNotFoundException();
         }
-        $balance = $wallet->getBalanceUsd();
+        $balance = 0;
         $coinsWallet = $wallet->getCoins();
         foreach ($coinsWallet as $coin) {
-            if (is_null($api->getCoinInfo($coin->getId()))) {
-                return null;
+            $coinInfo = $api->getCoinInfo($coin->getId());
+            if (is_null($coinInfo)) {
+                throw new CoinNotFoundException();
             }
-            $newValuesCoin = $api->getCoinInfo($coin->getId());
-            $balance = $balance + ($newValuesCoin->getValueUsd() * $coin->getAmount());
+            $balance = $balance + ($coinInfo->getValueUsd() * $coin->getAmount());
         }
         return $balance;
     }
