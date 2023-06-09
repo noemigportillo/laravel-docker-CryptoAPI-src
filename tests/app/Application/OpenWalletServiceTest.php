@@ -21,7 +21,17 @@ class OpenWalletServiceTest extends TestCase
     /**
      * @test
      */
-    public function isWalletOpening()
+    public function userNotFoundThrowsException()
+    {
+        $this->expectExceptionMessage("User not found");
+
+        $this->openWalletService->execute("user_id");
+    }
+
+    /**
+     * @test
+     */
+    public function walletOpenSuccess()
     {
         $this->userDataSource->addUser("user_id", "email@email.com");
 
