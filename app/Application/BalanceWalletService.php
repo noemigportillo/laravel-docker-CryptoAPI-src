@@ -3,7 +3,7 @@
 namespace App\Application;
 
 use App\Application\Exceptions\WalletNotFoundException;
-use App\Infrastructure\Persistence\APICliente;
+use App\Infrastructure\Persistence\APIClient;
 use App\Application\WalletDataSource\WalletDataSource;
 use App\Application\CoinDataSource\CoinDataSource;
 use App\Application\Exceptions\CoinNotFoundException;
@@ -11,19 +11,21 @@ use App\Application\Exceptions\CoinNotFoundException;
 class BalanceWalletService
 {
     private WalletDataSource $walletDataSource;
+    private APIClient $apiClient;
+
     /**
      * @param WalletDataSource $walletDataSource
+     * @param APIClient $apiClient
      */
-
-    public function __construct(WalletDataSource $walletDataSource)
+    public function __construct(WalletDataSource $walletDataSource, APIClient $apiClient)
     {
         $this->walletDataSource = $walletDataSource;
+        $this->apiClient = $apiClient;
     }
 
 
     public function execute(string $wallet_id): ?float
     {
-        $api = new APICliente();
         $wallet = $this->walletDataSource->getWalletInfo($wallet_id);
         if (is_null($wallet)) {
             throw new WalletNotFoundException();
@@ -31,7 +33,7 @@ class BalanceWalletService
         $balance = 0;
         $coinsWallet = $wallet->getCoins();
         foreach ($coinsWallet as $coin) {
-            $coinInfo = $api->getCoinInfo($coin->getId());
+            $coinInfo = $this->apiClient->getCoinInfo($coin->getId());
             if (is_null($coinInfo)) {
                 throw new CoinNotFoundException();
             }

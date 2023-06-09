@@ -7,8 +7,7 @@ use App\Application\BuyCoinService;
 use App\Application\Exceptions\CoinNotFoundException;
 use App\Application\Exceptions\WalletNotFoundException;
 use App\Application\WalletCryptocurrenciesService;
-use App\Infrastructure\Persistence\APICliente;
-use App\Infrastructure\Persistence\FileWalletDataSource;
+use App\Infrastructure\Persistence\APIClient;
 use App\Application\WalletDataSource\WalletDataSource;
 use App\Domain\Coin;
 use App\Domain\Wallet;
@@ -19,12 +18,12 @@ class BalanceWalletServiceTest extends TestCase
 {
     private WalletDataSource $walletDataSource;
     private BalanceWalletService $balanceWalletService;
-    private APICliente $apiCliente;
+    private APIClient $apiClient;
     protected function setUp(): void
     {
         $this->walletDataSource = Mockery::mock(WalletDataSource::class);
-        $this->apiCliente = Mockery::mock(APICliente::class);
-        $this->balanceWalletService = new BalanceWalletService($this->walletDataSource);
+        $this->apiClient = Mockery::mock(APIClient::class);
+        $this->balanceWalletService = new BalanceWalletService($this->walletDataSource, $this->apiClient);
     }
 
     /**
@@ -44,10 +43,10 @@ class BalanceWalletServiceTest extends TestCase
         $this->balanceWalletService->execute($wallet_id);
     }
 
-    /*/**
+    /**
      * @test
      */
-    /*public function coinNotFound()
+    public function coinNotFound()
     {
         $coin = new Coin('coin_id', "Bitcoin", "BTC", 1, 26721.88);
         $wallet = new Wallet("user_id", "wallet_id", [$coin], 26721.88);
@@ -56,7 +55,7 @@ class BalanceWalletServiceTest extends TestCase
             ->expects('getWalletInfo')
             ->with("wallet_id")
             ->andReturn($wallet);
-        $this->apiCliente
+        $this->apiClient
             ->expects('getCoinInfo')
             ->with("coin_id")
             ->andReturnNull();
@@ -64,17 +63,17 @@ class BalanceWalletServiceTest extends TestCase
         $this->expectException(CoinNotFoundException::class);
 
         $this->balanceWalletService->execute($wallet->getWalletId());
-    }*/
+    }
 
     /**
      * @test
      */
     public function balanceReturnedSuccesfully()
     {
-        $apiCliente = new APICliente();
-        $coin1 = $apiCliente->getCoinInfo(90);
+        $apiClient = new APIClient();
+        $coin1 = $apiClient->getCoinInfo(90);
         $coin1->setAmount(4);
-        $coin2 = $apiCliente->getCoinInfo(80);
+        $coin2 = $apiClient->getCoinInfo(80);
         $coin2->setAmount(4);
         $wallet = new Wallet("user_id", "wallet_id", [$coin1, $coin2], 26721.88);
 
@@ -82,6 +81,14 @@ class BalanceWalletServiceTest extends TestCase
             ->expects('getWalletInfo')
             ->with("wallet_id")
             ->andReturn($wallet);
+        $this->apiClient
+            ->expects('getCoinInfo')
+            ->with(90)
+            ->andReturn($coin1);
+        $this->apiClient
+            ->expects('getCoinInfo')
+            ->with(80)
+            ->andReturn($coin2);
 
         $balance = $this->balanceWalletService->execute($wallet->getWalletId());
 

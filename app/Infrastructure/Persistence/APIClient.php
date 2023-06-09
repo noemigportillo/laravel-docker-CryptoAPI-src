@@ -4,7 +4,7 @@ namespace App\Infrastructure\Persistence;
 
 use App\Domain\Coin;
 
-class APICliente
+class APIClient
 {
     public function getCoinInfo(string $coin_id): ?Coin
     {
