@@ -1,5 +1,6 @@
 <?php
 
+use App\Infrastructure\Controllers\BalanceWalletController;
 use App\Infrastructure\Controllers\GetUserController;
 use App\Infrastructure\Controllers\GetWalletCryptocurrenciesController;
 use App\Infrastructure\Controllers\IsEarlyAdopterUserController;
@@ -23,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/status', GetStatusController::class);
 Route::get('/wallet/{wallet_id}', GetWalletCryptocurrenciesController::class);
+Route::get('/wallet/{wallet_id}/balance', BalanceWalletController::class);
 Route::post('/wallet/open/', [OpenWalletController::class, '__invoke']);
 Route::post('/coin/sell', [SellCoinController::class, '__invoke']);
 Route::post('/coin/buy', [BuyCoinController::class, '__invoke']);
