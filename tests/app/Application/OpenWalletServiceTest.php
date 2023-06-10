@@ -2,6 +2,7 @@
 
 namespace Tests\app\Application;
 
+use App\Application\Exceptions\UserNotFoundException;
 use App\Application\OpenWallet\OpenWalletService;
 use App\Application\UserDataSource\UserDataSource;
 use App\Infrastructure\Persistence\FileUserDataSource;
@@ -23,7 +24,7 @@ class OpenWalletServiceTest extends TestCase
      */
     public function userNotFoundThrowsException()
     {
-        $this->expectExceptionMessage("User not found");
+        $this->expectException(UserNotFoundException::class);
 
         $this->openWalletService->execute("user_id");
     }
