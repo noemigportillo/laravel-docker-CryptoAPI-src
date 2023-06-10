@@ -2,9 +2,9 @@
 
 namespace App\Infrastructure\Controllers;
 
-use App\Application\BalanceWalletService;
-use App\Application\Exceptions\WalletNotFoundException;
+use App\Application\BalanceWallet\BalanceWalletService;
 use App\Application\Exceptions\CoinNotFoundException;
+use App\Application\Exceptions\WalletNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;

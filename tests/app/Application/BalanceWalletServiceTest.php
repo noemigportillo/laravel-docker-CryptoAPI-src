@@ -2,17 +2,17 @@
 
 namespace Tests\app\Application;
 
-use App\Application\BalanceWalletService;
+use App\Application\BalanceWallet\BalanceWalletService;
 use App\Application\BuyCoinService;
 use App\Application\Exceptions\CoinNotFoundException;
 use App\Application\Exceptions\WalletNotFoundException;
 use App\Application\WalletCryptocurrenciesService;
-use App\Infrastructure\Persistence\APIClient;
 use App\Application\WalletDataSource\WalletDataSource;
 use App\Domain\Coin;
 use App\Domain\Wallet;
-use PHPUnit\Framework\TestCase;
+use App\Infrastructure\Persistence\APIClient;
 use Mockery;
+use PHPUnit\Framework\TestCase;
 
 class BalanceWalletServiceTest extends TestCase
 {

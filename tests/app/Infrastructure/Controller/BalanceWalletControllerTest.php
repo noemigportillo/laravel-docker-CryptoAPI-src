@@ -2,18 +2,16 @@
 
 namespace Tests\app\Infrastructure\Controller;
 
-use App\Application\BalanceWalletService;
+use App\Application\BalanceWallet\BalanceWalletService;
 use App\Application\BuyCoinService;
 use App\Application\Exceptions\CoinNotFoundException;
 use App\Application\Exceptions\WalletNotFoundException;
 use App\Application\WalletCryptocurrenciesService;
-use App\Infrastructure\Persistence\APIClient;
 use App\Application\WalletDataSource\WalletDataSource;
+use App\Infrastructure\Persistence\APIClient;
 use Illuminate\Http\Response;
-use App\Domain\Coin;
-use App\Domain\Wallet;
-use Tests\TestCase;
 use Mockery;
+use Tests\TestCase;
 
 class BalanceWalletControllerTest extends TestCase
 {

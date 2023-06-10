@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Application;
+namespace App\Application\BalanceWallet;
 
-use App\Application\Exceptions\WalletNotFoundException;
-use App\Infrastructure\Persistence\APIClient;
-use App\Application\WalletDataSource\WalletDataSource;
 use App\Application\CoinDataSource\CoinDataSource;
 use App\Application\Exceptions\CoinNotFoundException;
+use App\Application\Exceptions\WalletNotFoundException;
+use App\Application\WalletDataSource\WalletDataSource;
+use App\Infrastructure\Persistence\APIClient;
 
 class BalanceWalletService
 {
