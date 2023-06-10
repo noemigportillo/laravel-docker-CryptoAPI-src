@@ -16,7 +16,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(WalletDataSource::class, FileWalletDataSource::class);
     }
 
     /**
@@ -26,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->app->bind(WalletDataSource::class, FileWalletDataSource::class);
 //        $this->app->bind(UserDataSource::class, function () {
 //            return new EloquentUserDataSource();
 //        });
