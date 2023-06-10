@@ -2,11 +2,11 @@
 
 namespace App\Infrastructure\Controllers;
 
-use App\Application\BuyCoinService;
+use App\Application\BuyCoin\BuyCoinService;
+use Barryvdh\Debugbar\Controllers\BaseController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Barryvdh\Debugbar\Controllers\BaseController;
 
 class BuyCoinController extends BaseController
 {

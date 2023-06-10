@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application;
+namespace App\Application\BuyCoin;
 
 use App\Application\CoinDataSource\CoinDataSource;
 use App\Application\Exceptions\CoinNotFoundException;
