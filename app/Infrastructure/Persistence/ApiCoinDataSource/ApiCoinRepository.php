@@ -2,22 +2,22 @@
 
 namespace App\Infrastructure\Persistence\ApiCoinDataSource;
 
+use App\Application\Exceptions\CoinNotFoundException;
 use App\Domain\Coin;
 use App\Infrastructure\Persistence\APIClient;
 
 class ApiCoinRepository
 {
-    private Coin $coin;
-    public function buySell(string $coinId, float $amountUSD): ?Coin
+    public function calculateAmountOfCoinWithAmountUsd(string $coinId, float $amount_usd): ?Coin
     {
         $api = new APIClient();
-        if (is_null($api->getCoinInfo($coinId))) {
-            return null;
+        $coin = $api->getCoinInfo($coinId);
+        if (is_null($coin)) {
+            throw new CoinNotFoundException();
         }
-        $this->coin = $api->getCoinInfo($coinId);
-        $priceCoinUsd = $this->coin->getValueUsd();
-        $amountCoin = $amountUSD / $priceCoinUsd;
-        $this->coin->setAmount($amountCoin);
-        return $this->coin;
+        $priceCoinUsd = $coin->getValueUsd();
+        $amountCoin = $amount_usd / $priceCoinUsd;
+        $coin->setAmount($amountCoin);
+        return $coin;
     }
 }

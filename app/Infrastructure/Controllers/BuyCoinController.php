@@ -19,7 +19,7 @@ class BuyCoinController extends BaseController
     public function __invoke(Request $bodyPetition): JsonResponse
     {
         try {
-            $coin = $this->buyCoinService->execute(
+            $this->buyCoinService->execute(
                 $bodyPetition->input("coin_id"),
                 $bodyPetition->input("wallet_id"),
                 $bodyPetition->input("amount_usd")
@@ -30,7 +30,7 @@ class BuyCoinController extends BaseController
             ], Response::HTTP_NOT_FOUND);
         }
         return response()->json([
-            'coin_id' => $coin->getId()
+            'successful operation'
         ], Response::HTTP_OK);
     }
 }

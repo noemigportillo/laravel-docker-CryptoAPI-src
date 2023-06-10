@@ -45,7 +45,7 @@ class SellCoinService
             throw new WalletNotFoundException();
         }
         $this->apiCoinRepository = new ApiCoinRepository();
-        $coin = $this->apiCoinRepository->buySell($coin_id, $amount_usd);
+        $coin = $this->apiCoinRepository->CalculateAmountOfCoinWithAmountUsd($coin_id, $amount_usd);
         if (is_null($coin)) {
             throw new CoinNotFoundException();
         }

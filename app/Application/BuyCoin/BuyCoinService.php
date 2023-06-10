@@ -33,26 +33,22 @@ class BuyCoinService
             return $coin->getId() !== $coinId;
         });
     }
-    public function execute(string $coin_id, string $wallet_id, float $amountUSD): void
+    public function execute(string $coin_id, string $wallet_id, float $amount_usd): void
     {
         $wallet = $this->walletDataSource->getWalletInfo($wallet_id);
         if (is_null($wallet)) {
             throw new WalletNotFoundException();
         }
         $this->apiCoinRepository = new ApiCoinRepository();
-        $coin = $this->apiCoinRepository->buySell($coin_id, $amountUSD);
-        if (is_null($coin)) {
-            throw new CoinNotFoundException();
-        }
+        $coin = $this->apiCoinRepository->CalculateAmountOfCoinWithAmountUsd($coin_id, $amount_usd);
         $coinsWallet = $wallet->getCoins();
-        $coinDeWallet = $this->findCoinById($coinsWallet, $coin_id);
-        if (is_null($coinDeWallet)) {
-            $coinsWallet = $wallet->getCoins();
+        $coinOfWallet = $this->findCoinById($coinsWallet, $coin_id);
+        if (is_null($coinOfWallet)) {
             $coinsWallet[] = $coin;
             $wallet->setCoins($coinsWallet);
             $this->walletDataSource->saveWallet($wallet);
-        } elseif (!is_null($coinDeWallet)) {
-            $coin->setAmount($coinDeWallet->getAmount() + $coin->getAmount());
+        } elseif (!is_null($coinOfWallet)) {
+            $coin->setAmount($coinOfWallet->getAmount() + $coin->getAmount());
             $coinsWallet = $this->removeCoinById($coinsWallet, $coin_id);
             $coinsWallet[] = $coin;
             $wallet->setCoins($coinsWallet);
