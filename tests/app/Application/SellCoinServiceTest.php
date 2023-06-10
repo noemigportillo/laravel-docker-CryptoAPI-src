@@ -47,8 +47,8 @@ class SellCoinServiceTest extends TestCase
      */
     public function coinNotFoundInWalletThrowsException()
     {
-        $coin = new Coin('90', "Bitcoin", "BTC", 1, 21.88);
-        $wallet = new Wallet("userId", "wallet_id", [$coin], 21.88);
+        $coin = new Coin('90', "Bitcoin", "BTC", 1, 27086.37);
+        $wallet = new Wallet("userId", "wallet_id", [$coin], 27086.37);
         $this->walletDataSource
             ->expects('getWalletInfo')
             ->with("wallet_id")
@@ -64,8 +64,8 @@ class SellCoinServiceTest extends TestCase
      */
     public function notEnoughAmountToSell()
     {
-        $coin = new Coin('90', "Bitcoin", "BTC", 1, 21.88);
-        $wallet = new Wallet("userId", "wallet_id", [$coin], 0);
+        $coin = new Coin('90', "Bitcoin", "BTC", 1, 27086.37);
+        $wallet = new Wallet("userId", "wallet_id", [$coin], 27086.37);
         $this->walletDataSource
             ->expects('getWalletInfo')
             ->with("wallet_id")

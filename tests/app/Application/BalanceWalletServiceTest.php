@@ -73,7 +73,9 @@ class BalanceWalletServiceTest extends TestCase
         $coin1->setAmount(4);
         $coin2 = $apiClient->getCoinInfo(80);
         $coin2->setAmount(4);
-        $wallet = new Wallet("user_id", "wallet_id", [$coin1, $coin2], 26721.88);
+        $balance = ($coin1->getAmount() * $coin1->getValueUsd()) +
+            ($coin2->getAmount() * $coin2->getValueUsd());
+        $wallet = new Wallet("user_id", "wallet_id", [$coin1, $coin2], $balance);
         $this->walletDataSource
             ->expects('getWalletInfo')
             ->with("wallet_id")

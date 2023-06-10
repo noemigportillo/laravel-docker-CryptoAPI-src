@@ -63,10 +63,10 @@ class SellCoinControllerTest extends TestCase
         $this->sellCoinService
             ->shouldReceive('execute')
             ->once()
-            ->with(90, 'wallet_id', 0);
+            ->with(90, 'wallet_id', 100);
 
         $response = $this->post('/api/coin/sell', ['coin_id' => 90,
-            'wallet_id' => 'wallet_id', 'amount_usd' => 0]);
+            'wallet_id' => 'wallet_id', 'amount_usd' => 100]);
 
         $response->assertStatus(Response::HTTP_OK);
         $response->assertExactJson(['successful operation']);
