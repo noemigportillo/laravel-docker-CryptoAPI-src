@@ -62,7 +62,7 @@ class SellCoinServiceTest extends TestCase
     /**
      * @test
      */
-    public function notEnoughAmountToSell()
+    public function notEnoughAmountToSellThrowsException()
     {
         $coin = new Coin('90', "Bitcoin", "BTC", 1, 27086.37);
         $wallet = new Wallet("userId", "wallet_id", [$coin], 27086.37);

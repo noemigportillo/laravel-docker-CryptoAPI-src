@@ -4,6 +4,7 @@ namespace Tests\app\Infrastructure\Controller;
 
 use App\Application\CoinDataSource\CoinDataSource;
 use App\Application\Exceptions\CoinNotFoundException;
+use App\Application\Exceptions\InsuficientAmountException;
 use App\Application\Exceptions\WalletNotFoundException;
 use App\Application\SellCoin\SellCoinService;
 use Illuminate\Http\Response;
@@ -53,6 +54,22 @@ class SellCoinControllerTest extends TestCase
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
         $response->assertExactJson(['A coin with the specified ID was not found.']);
+    }
+
+    /**
+     * @test
+     */
+    public function notEnoughAmountToSell()
+    {
+        $this->sellCoinService
+            ->expects('execute')
+            ->andThrow(InsuficientAmountException::class);
+
+        $response = $this->post('/api/coin/sell', ['coin_id' => 'coin_id',
+            'wallet_id' => 'wallet_id', 'amount_usd' => '1.2']);
+
+        $response->assertStatus(Response::HTTP_BAD_REQUEST);
+        $response->assertExactJson(['Not enough amount.']);
     }
 
     /**

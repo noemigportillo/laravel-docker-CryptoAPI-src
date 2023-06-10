@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Controllers;
 
 use App\Application\Exceptions\CoinNotFoundException;
+use App\Application\Exceptions\InsuficientAmountException;
 use App\Application\Exceptions\WalletNotFoundException;
 use App\Application\SellCoin\SellCoinService;
 use Illuminate\Routing\Controller as BaseController;
@@ -35,6 +36,10 @@ class SellCoinController extends BaseController
             return response()->json([
                 'A coin with the specified ID was not found.'
             ], Response::HTTP_NOT_FOUND);
+        } catch (InsuficientAmountException $e) {
+            return response()->json([
+                'Not enough amount.'
+            ], Response::HTTP_BAD_REQUEST);
         }
         return response()->json([
             'successful operation'
