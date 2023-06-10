@@ -2,8 +2,10 @@
 
 namespace App\Infrastructure\Controllers;
 
+use App\Application\Exceptions\CoinNotFoundException;
+use App\Application\Exceptions\WalletNotFoundException;
 use App\Application\SellCoin\SellCoinService;
-use Barryvdh\Debugbar\Controllers\BaseController;
+use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -11,6 +13,7 @@ use Illuminate\Http\Response;
 class SellCoinController extends BaseController
 {
     private SellCoinService $sellCoinService;
+
     public function __construct(SellCoinService $sellCoinService)
     {
         $this->sellCoinService = $sellCoinService;
@@ -24,7 +27,11 @@ class SellCoinController extends BaseController
                 $bodyPetition->input("wallet_id"),
                 $bodyPetition->input("amount_usd")
             );
-        } catch (\Exception $ex) {
+        } catch (WalletNotFoundException $e) {
+            return response()->json([
+                'A wallet with the specified ID was not found.',
+            ], Response::HTTP_NOT_FOUND);
+        } catch (CoinNotFoundException $e) {
             return response()->json([
                 'A coin with the specified ID was not found.'
             ], Response::HTTP_NOT_FOUND);

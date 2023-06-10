@@ -21,7 +21,7 @@ class OpenWalletController extends BaseController
     {
         try {
             $wallet = $this->openWalletService->execute($bodyPetition->input("user_id"));
-        } catch (\Exception $ex) {
+        } catch (\Exception $e) {
             return response()->json([
                 'A user with the specified ID was not found.'
             ], Response::HTTP_NOT_FOUND);

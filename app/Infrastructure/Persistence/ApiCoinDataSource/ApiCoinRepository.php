@@ -8,10 +8,13 @@ use App\Infrastructure\Persistence\APIClient;
 
 class ApiCoinRepository
 {
-    public function calculateAmountOfCoinWithAmountUsd(string $coinId, float $amount_usd): ?Coin
+    /**
+     * @throws CoinNotFoundException
+     */
+    public function calculateAmountOfCoinWithAmountUsd(string $coin_id, float $amount_usd): ?Coin
     {
         $api = new APIClient();
-        $coin = $api->getCoinInfo($coinId);
+        $coin = $api->getCoinInfo($coin_id);
         if (is_null($coin)) {
             throw new CoinNotFoundException();
         }

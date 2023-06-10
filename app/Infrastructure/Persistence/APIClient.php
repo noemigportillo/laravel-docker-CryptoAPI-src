@@ -14,11 +14,11 @@ class APIClient
         if ($response) {
             $bitcoinData = $response[0];
 
-            $id_coin = $bitcoinData->id;
+            $idCoin = $bitcoinData->id;
             $symbol = $bitcoinData->symbol;
             $name = $bitcoinData->name;
             $price = $bitcoinData->price_usd;
-            return new Coin($id_coin, $name, $symbol, 0, $price);
+            return new Coin($idCoin, $name, $symbol, 0, $price);
         }
         return null;
     }

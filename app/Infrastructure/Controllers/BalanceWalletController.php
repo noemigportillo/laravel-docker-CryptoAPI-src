@@ -31,11 +31,11 @@ class BalanceWalletController extends BaseController
             ], Response::HTTP_OK);
         } catch (WalletNotFoundException $e) {
             return response()->json([
-                'a wallet with the specified ID was not found.',
+                'A wallet with the specified ID was not found.',
             ], Response::HTTP_NOT_FOUND);
         } catch (CoinNotFoundException $e) {
             return response()->json([
-                'a coin with the specified ID was not found.'
+                'A coin with the specified ID was not found.'
             ], Response::HTTP_NOT_FOUND);
         }
     }

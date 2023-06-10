@@ -10,7 +10,6 @@ class Coin
     private float $amount;
     private float $value_usd;
 
-
     public function __construct(string $coin_id, string $name, string $symbol, float $amount, float $value_usd)
     {
         $this->coin_id = $coin_id;

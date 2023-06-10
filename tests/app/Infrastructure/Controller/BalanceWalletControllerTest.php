@@ -7,17 +7,14 @@ use App\Application\BuyCoinService;
 use App\Application\Exceptions\CoinNotFoundException;
 use App\Application\Exceptions\WalletNotFoundException;
 use App\Application\WalletCryptocurrenciesService;
-use App\Application\WalletDataSource\WalletDataSource;
-use App\Infrastructure\Persistence\APIClient;
 use Illuminate\Http\Response;
 use Mockery;
 use Tests\TestCase;
 
 class BalanceWalletControllerTest extends TestCase
 {
-    private WalletDataSource $walletDataSource;
     private BalanceWalletService $balanceWalletService;
-    private APIClient $apiClient;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -39,7 +36,7 @@ class BalanceWalletControllerTest extends TestCase
         $response = $this->get('/api/wallet/wallet_id/balance');
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
-        $response->assertExactJson(['a wallet with the specified ID was not found.']);
+        $response->assertExactJson(['A wallet with the specified ID was not found.']);
     }
 
     /**
@@ -54,7 +51,7 @@ class BalanceWalletControllerTest extends TestCase
         $response = $this->get('/api/wallet/wallet_id/balance');
 
         $response->assertNotFound();
-        $response->assertExactJson(['a coin with the specified ID was not found.']);
+        $response->assertExactJson(['A coin with the specified ID was not found.']);
     }
 
     /**

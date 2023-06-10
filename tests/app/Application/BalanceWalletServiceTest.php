@@ -32,7 +32,6 @@ class BalanceWalletServiceTest extends TestCase
     public function walletNotFoundThrowsException()
     {
         $wallet_id = 'wallet_id';
-
         $this->walletDataSource
             ->expects('getWalletInfo')
             ->with($wallet_id)
@@ -50,7 +49,6 @@ class BalanceWalletServiceTest extends TestCase
     {
         $coin = new Coin('coin_id', "Bitcoin", "BTC", 1, 26721.88);
         $wallet = new Wallet("user_id", "wallet_id", [$coin], 26721.88);
-
         $this->walletDataSource
             ->expects('getWalletInfo')
             ->with("wallet_id")
@@ -68,7 +66,7 @@ class BalanceWalletServiceTest extends TestCase
     /**
      * @test
      */
-    public function balanceReturnedSuccesfully()
+    public function balanceReturnedSuccessfully()
     {
         $apiClient = new APIClient();
         $coin1 = $apiClient->getCoinInfo(90);
@@ -76,7 +74,6 @@ class BalanceWalletServiceTest extends TestCase
         $coin2 = $apiClient->getCoinInfo(80);
         $coin2->setAmount(4);
         $wallet = new Wallet("user_id", "wallet_id", [$coin1, $coin2], 26721.88);
-
         $this->walletDataSource
             ->expects('getWalletInfo')
             ->with("wallet_id")

@@ -3,7 +3,9 @@
 namespace App\Infrastructure\Controllers;
 
 use App\Application\BuyCoin\BuyCoinService;
-use Barryvdh\Debugbar\Controllers\BaseController;
+use App\Application\Exceptions\CoinNotFoundException;
+use App\Application\Exceptions\WalletNotFoundException;
+use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -24,9 +26,13 @@ class BuyCoinController extends BaseController
                 $bodyPetition->input("wallet_id"),
                 $bodyPetition->input("amount_usd")
             );
-        } catch (\Exception $ex) {
+        } catch (WalletNotFoundException $e) {
             return response()->json([
-                'a coin with the specified ID was not found.'
+                'A wallet with the specified ID was not found.',
+            ], Response::HTTP_NOT_FOUND);
+        } catch (CoinNotFoundException $e) {
+            return response()->json([
+                'A coin with the specified ID was not found.'
             ], Response::HTTP_NOT_FOUND);
         }
         return response()->json([
