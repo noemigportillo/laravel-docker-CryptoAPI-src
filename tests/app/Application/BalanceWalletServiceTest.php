@@ -29,7 +29,7 @@ class BalanceWalletServiceTest extends TestCase
     /**
      * @test
      */
-    public function walletNotFound()
+    public function walletNotFoundThrowsException()
     {
         $wallet_id = 'wallet_id';
 
@@ -46,7 +46,7 @@ class BalanceWalletServiceTest extends TestCase
     /**
      * @test
      */
-    public function coinNotFound()
+    public function coinNotFoundThrowsException()
     {
         $coin = new Coin('coin_id', "Bitcoin", "BTC", 1, 26721.88);
         $wallet = new Wallet("user_id", "wallet_id", [$coin], 26721.88);
