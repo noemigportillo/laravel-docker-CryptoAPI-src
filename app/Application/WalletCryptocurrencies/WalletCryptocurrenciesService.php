@@ -19,6 +19,9 @@ class WalletCryptocurrenciesService
     }
 
 
+    /**
+     * @throws WalletNotFoundException
+     */
     public function execute(string $wallet_id): ?array
     {
         $wallet = $this->walletDataSource->getWalletInfo($wallet_id);

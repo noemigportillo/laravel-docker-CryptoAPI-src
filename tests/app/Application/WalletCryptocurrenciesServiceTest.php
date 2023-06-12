@@ -27,7 +27,6 @@ class WalletCryptocurrenciesServiceTest extends TestCase
     public function walletNotFound()
     {
         $wallet_id = 'walletId';
-
         $this->walletDataSource
             ->expects('getWalletInfo')
             ->with($wallet_id)
@@ -45,8 +44,7 @@ class WalletCryptocurrenciesServiceTest extends TestCase
     {
         $coin = new Coin("coinId", "name", "symbol", 0.2, 0.3);
         $coins = array($coin);
-        $wallet = new Wallet("userId", "walletId", $coins, 0.4);
-
+        $wallet = new Wallet("userId", "walletId", $coins, 0.06);
         $this->walletDataSource
             ->expects('getWalletInfo')
             ->with("walletId")

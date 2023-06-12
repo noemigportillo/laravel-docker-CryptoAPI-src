@@ -4,6 +4,7 @@ namespace App\Application\SellCoin;
 
 use App\Application\CoinDataSource\CoinDataSource;
 use App\Application\Exceptions\CoinNotFoundException;
+use App\Application\Exceptions\InsuficientAmountException;
 use App\Application\Exceptions\WalletNotFoundException;
 use App\Application\WalletDataSource\WalletDataSource;
 use App\Domain\Coin;
@@ -12,9 +13,7 @@ use Mockery\Exception;
 
 class SellCoinService
 {
-    private ApiCoinRepository $apiCoinRepository;
     private WalletDataSource $walletDataSource;
-
 
     public function __construct(WalletDataSource $walletDataSource)
     {
@@ -38,27 +37,29 @@ class SellCoinService
         }
         return $coins;
     }
+
+    /**
+     * @throws CoinNotFoundException
+     * @throws WalletNotFoundException
+     * @throws InsuficientAmountException
+     */
     public function execute(string $coin_id, string $wallet_id, float $amount_usd): void
     {
         $wallet = $this->walletDataSource->getWalletInfo($wallet_id);
         if (is_null($wallet)) {
             throw new WalletNotFoundException();
         }
-        $this->apiCoinRepository = new ApiCoinRepository();
-        $coin = $this->apiCoinRepository->CalculateAmountOfCoinWithAmountUsd($coin_id, $amount_usd);
-        if (is_null($coin)) {
-            throw new CoinNotFoundException();
-        }
-
+        $apiCoinRepository = new ApiCoinRepository();
+        $coin = $apiCoinRepository->calculateAmountOfCoinWithAmountUsd($coin_id, $amount_usd);
         $coinsWallet = $wallet->getCoins();
-        $coinDeWallet = $this->findCoinById($coinsWallet, $coin_id);
-        if (is_null($coinDeWallet)) {
+        $coinOfWallet = $this->findCoinById($coinsWallet, $coin_id);
+        if (is_null($coinOfWallet)) {
             throw new CoinNotFoundException();
         }
-        if ($coinDeWallet->getAmount() < $coin->getAmount()) {
-            throw new Exception("No suficiente amount");
+        if ($coinOfWallet->getAmount() < $coin->getAmount()) {
+            throw new InsuficientAmountException();
         }
-        $coin->setAmount($coinDeWallet->getAmount() - $coin->getAmount());
+        $coin->setAmount($coinOfWallet->getAmount() - $coin->getAmount());
         $coinsWallet = $this->unsetCoinById($coinsWallet, $coin_id);
         $coinsWallet[] = $coin;
         $wallet->setCoins($coinsWallet);

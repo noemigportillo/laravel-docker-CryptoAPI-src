@@ -2,12 +2,12 @@
 
 namespace App\Application\OpenWallet;
 
+use App\Application\Exceptions\UserNotFoundException;
 use App\Application\UserDataSource\UserDataSource;
 use App\Application\WalletDataSource\WalletDataSource;
 use App\Domain\Wallet;
 use App\Infrastructure\Persistence\FileUserDataSource;
 use App\Infrastructure\Persistence\FileWalletDataSource;
-use Exception;
 
 class OpenWalletService
 {
@@ -21,13 +21,13 @@ class OpenWalletService
     }
 
     /**
-     * @throws Exception
+     * @throws UserNotFoundException
      */
     public function execute(string $user_id): ?string
     {
         $user = $this->userDataSource->findById($user_id);
         if (is_null($user)) {
-            throw new Exception("User not found");
+            throw new UserNotFoundException();
         }
 
         $wallet = new Wallet($user->getId(), "wallet_" . $user->getId(), [], 0);

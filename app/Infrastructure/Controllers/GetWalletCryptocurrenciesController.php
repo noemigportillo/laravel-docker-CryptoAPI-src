@@ -20,7 +20,6 @@ class GetWalletCryptocurrenciesController extends BaseController
         $this->walletCryptocurrenciesService = $walletCryptocurrenciesService;
     }
 
-
     public function __invoke(string $wallet_id): JsonResponse
     {
         try {
@@ -39,7 +38,7 @@ class GetWalletCryptocurrenciesController extends BaseController
             return response()->json($publicCoins, Response::HTTP_OK);
         } catch (WalletNotFoundException $e) {
             return response()->json([
-                'a wallet with the specified ID was not found.',
+                'A wallet with the specified ID was not found.',
             ], Response::HTTP_NOT_FOUND);
         }
     }

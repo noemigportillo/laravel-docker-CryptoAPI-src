@@ -14,9 +14,10 @@ class BuyCoinService
     private ApiCoinRepository $apiCoinRepository;
     private WalletDataSource $walletDataSource;
 
-    public function __construct(WalletDataSource $walletDataSource)
+    public function __construct(WalletDataSource $walletDataSource, ApiCoinRepository $apiCoinRepository)
     {
         $this->walletDataSource = $walletDataSource;
+        $this->apiCoinRepository = $apiCoinRepository;
     }
     public function findCoinById(array $coins, string $coinId): ?Coin
     {
@@ -33,14 +34,21 @@ class BuyCoinService
             return $coin->getId() !== $coinId;
         });
     }
+
+    /**
+     * @throws CoinNotFoundException
+     * @throws WalletNotFoundException
+     */
     public function execute(string $coin_id, string $wallet_id, float $amount_usd): void
     {
         $wallet = $this->walletDataSource->getWalletInfo($wallet_id);
         if (is_null($wallet)) {
             throw new WalletNotFoundException();
         }
-        $this->apiCoinRepository = new ApiCoinRepository();
         $coin = $this->apiCoinRepository->CalculateAmountOfCoinWithAmountUsd($coin_id, $amount_usd);
+        if (is_null($coin)) {
+            throw new CoinNotFoundException();
+        }
         $coinsWallet = $wallet->getCoins();
         $coinOfWallet = $this->findCoinById($coinsWallet, $coin_id);
         if (is_null($coinOfWallet)) {
