@@ -68,7 +68,7 @@ class BuyCoinServiceTest extends TestCase
     /**
      * @test
      */
-    public function coinNotYetInWallet()
+    public function successBuyWithCoinNotYetInWallet()
     {
         $apiCoinRepository = new ApiCoinRepository();
         $coin_api = $apiCoinRepository->calculateAmountOfCoinWithAmountUsd("90", 3);
@@ -96,7 +96,7 @@ class BuyCoinServiceTest extends TestCase
     /**
      * @test
      */
-    public function coinAlreadyInWallet()
+    public function successBuyWithCoinAlreadyInWallet()
     {
         $apiCoinRepository = new ApiCoinRepository();
         $coin_api = $apiCoinRepository->calculateAmountOfCoinWithAmountUsd("90", 300);
